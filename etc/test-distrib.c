@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <strings.h>
 
 char string[] = "Testing distribution of nonprinting chars:\n\
 Should be 0177: \177 Should be 0377: \377 Should be 0212: \212.\n\

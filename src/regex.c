@@ -195,6 +195,8 @@ enum regexpcode
 
 static int store_jump (), insert_fail_jump ();
 
+static int insert_jump (char op, char *from, char  *to, char *current_end);
+
 char *
 re_compile_pattern (pattern, size, bufp)
      char *pattern;
@@ -873,6 +875,9 @@ re_match (pbufp, string, size, pos, regs)
   -1 is returned if there is no match.  Otherwise the value is the length
   of the substring which was matched.
 */
+
+static int
+bcmp_translate (char *s1, char *s2, int len, char *translate);
 
 int
 re_match_2 (pbufp, string1, size1, string2, size2, pos, regs)

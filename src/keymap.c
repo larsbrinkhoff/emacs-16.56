@@ -946,6 +946,8 @@ apropos_accum (symbol, string)
     apropos_accumulate = Fcons (symbol, apropos_accumulate);
 }
 
+static int insert_first_line (char *prefix, Lisp_Object str);
+
 static
 apropos1 (list)
      Lisp_Object list;

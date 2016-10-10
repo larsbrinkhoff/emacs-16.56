@@ -340,6 +340,8 @@ search_command (string, bound, noerror, count, direction, RE)
    or else the position at the beginning of the `n'th occurrence (if searching backward)
    or the end (if searching forward).  */
 
+static int bcmp_buffer_translated (unsigned char *pat, int len, int pos, char *trt);
+
 search_buffer (string, from, lim, n, RE, trt)
      Lisp_Object string;
      int from;
@@ -696,6 +698,8 @@ Optional fourth argument is repeat count--search for successive occurrences.")
   return search_command (string, bound, noerror, count, 1, 1);
 }
 
+static int place (int l1, int l2);
+
 DEFUN ("replace-match", Freplace_match, Sreplace_match, 1, 3, 0,
   "Replace text matched by last search with NEWTEXT.\n\
 If second arg FIXEDCASE is non-nil, do not alter case of replacement text.\n\

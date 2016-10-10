@@ -33,16 +33,14 @@ copyright notice and this notice must be preserved on all copies.  */
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <errno.h>
 #undef NULL
 #include "lisp.h"
 #include "window.h"
 #include "buffer.h"
 #include "process.h"
 
-extern errno;
-extern sys_nerr;
-extern char *sys_errlist[];
-extern char *sys_siglist[];
+extern const char *const sys_siglist[];
 
 #ifdef vipc
 
@@ -692,7 +690,9 @@ deactivate_process (proc)
 
   if (inchannel)
     {
+#if 0
       ioctl (inchannel, TIOCFLUSH, 0);	/* flush any pending output */
+#endif
       close (inchannel);
       if (XFASTINT (p->outfd) != inchannel)
 	close (XFASTINT (p->outfd));
@@ -803,7 +803,7 @@ wait_reading_process_input (time_limit, read_kbd, do_display)
 	  if (errno == EINTR)
 	    Available = 0;
 	  else
-	    error("select error: %s", sys_errlist[errno]);
+	    error("select error: %s", strerror(errno));
 	}
 
       /* Check for keyboard input */
@@ -1062,7 +1062,9 @@ sig_process (process, signal, current_group, nomsg)
     case SIGINT:
     case SIGQUIT:
     case SIGKILL:
+#if 0
       ioctl (XFASTINT (p->infd), TIOCFLUSH, 0 );
+#endif
       break;
     }
   killpg (gid, signal);

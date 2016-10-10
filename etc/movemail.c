@@ -21,6 +21,7 @@ copyright notice and this notice must be preserved on all copies.  */
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/file.h>
+#include <sys/errno.h>
 
 char *concat ();
 
@@ -119,14 +120,9 @@ error (s1, s2)
 pfatal_with_name (name)
      char *name;
 {
-  extern int errno, sys_nerr;
-  extern char *sys_errlist[];
   char *s;
 
-  if (errno < sys_nerr)
-    s = concat ("", sys_errlist[errno], " for %s");
-  else
-    s = "cannot open %s";
+  s = concat ("", strerror(errno), " for %s");
   fatal (s, name);
 }
 

@@ -19,7 +19,7 @@
 
 
 LIBES=
-CFLAGS= -g -Demacs -DDisplayDebug
+CFLAGS= -g -Demacs -DDisplayDebug -w
 # DO NOT use -R.  There is a special hack described in lastfile.c
 # which is used instead.  Some initialized data areas are modified
 # at initial startup, then labeled as part of the text area when
@@ -76,8 +76,8 @@ xemacs: temacs ../etc/DOCSTR ${lisp}
 ../etc/DOCSTR: ${obj} ${lisp} auxdoc.c
 	../etc/make-docfile auxdoc.c ${obj} ${lisp} ../lisp/version.el > ../etc/DOCSTR
 
-temacs: crt0.o ${obj} alloca.o
-	ld -X -o temacs crt0.o ${obj} -ltermlib alloca.o ${LIBES} -lc -lg
+temacs: ${obj}
+	gcc -g -o temacs ${obj} -ltermcap ${LIBES} -lc -lg
 
 paths.h: paths.h.dist
 	@sh -c "if test -r $@; then echo $? is newer than $@; exit 1;\

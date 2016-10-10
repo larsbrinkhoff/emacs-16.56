@@ -28,7 +28,7 @@ main()
 		  putchar(ch);
 	      else
 		{
-		  ungetc(ch);
+		  ungetc(ch, stdin);
 		  break;
 		}
 	    }

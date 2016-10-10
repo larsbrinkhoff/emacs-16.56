@@ -668,7 +668,7 @@ extern Lisp_Object apply_lambda ();
 extern Lisp_Object internal_catch ();
 extern Lisp_Object internal_condition_case ();
 extern void unbind_to ();
-extern void error ();
+extern void error (char *m, ...);
 
 /* Defined in editfns.c */
 extern Lisp_Object Vprefix_arg, Qminus, Vcurrent_prefix_arg;

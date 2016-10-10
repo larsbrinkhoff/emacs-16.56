@@ -20,6 +20,7 @@ copyright notice and this notice must be preserved on all copies.  */
 #include "config.h"
 
 #ifndef eunice
+#define USG
 #ifdef USG
 #include <a.out.h> 
 #else
@@ -146,7 +147,8 @@ Lisp_Object
 concat2 (s1, s2)
      Lisp_Object s1, s2;
 {
-  return concat (2, &s1, Lisp_String);
+  Lisp_Object args[] = { s1, s2 };
+  return concat (2, args, Lisp_String);
 }
 
 DEFUN ("append", Fappend, Sappend, 0, MANY, 0,
@@ -734,7 +736,8 @@ Lisp_Object
 nconc2 (s1, s2)
      Lisp_Object s1, s2;
 {
-  return Fnconc (2, &s1);
+  Lisp_Object args[] = { s1, s2 };
+  return Fnconc (2, args);
 }
 
 DEFUN ("nconc", Fnconc, Snconc, 0, MANY, 0,

@@ -69,6 +69,12 @@ extern char etext;
 static struct exec hdr, ohdr;
 static int pagemask;
 
+static int make_hdr(int new, int a_out, unsigned data_start,
+		    unsigned bss_start, unsigned entry_address);
+static int copy_text_and_data(int new);
+static int copy_sym(int new, int a_out);
+static int mark_x(char *name);
+
 /* ****************************************************************
  * unexec
  *
@@ -140,7 +146,7 @@ unsigned data_start, bss_start, entry_address;
 	hdr.a_syms = 0;			/* No a.out, so no symbol info. */
 
     /* Construct header from user structure. */
-    hdr.a_magic = ZMAGIC;
+    N_SET_MAGIC(hdr, ZMAGIC);
     hdr.a_trsize = 0;
     hdr.a_drsize = 0;
     hdr.a_entry = entry_address;

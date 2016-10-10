@@ -1030,7 +1030,7 @@ use the C-shell command `setenv TERM ...' to specify the correct type.\n",
   calculate_costs ();
 }
 
-fatal (str, arg1, arg2)
+void fatal (char *str, char *arg1, char *arg2)
 {
   fprintf (stderr, "emacs: ");
   fprintf (stderr, str, arg1, arg2);

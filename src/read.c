@@ -488,6 +488,8 @@ read0 (readcharfun)
 
 static int read_buffer_size;
 static char *read_buffer;
+static int
+read_escape (Lisp_Object readcharfun);
 
 static Lisp_Object
 read1 (readcharfun)

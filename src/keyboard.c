@@ -642,7 +642,7 @@ get_char (commandflag)
 
   /* Cause immediate crash if anyone tries to throw back to this frame
      beyond here.  */
-  getcjmp[0] = 0;
+  //getcjmp[0] = 0;
 
   /* Cancel alarm if it was set and has not already gone off. */
   if (alarmtime > 0) alarm (0);

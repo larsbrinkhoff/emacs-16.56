@@ -101,6 +101,9 @@ what you give them.   Help stamp out software-hoarding!  */
 #define ISFREE ((char) 0x54)	/* magic byte that implies free block */
 				/* this is for error checking only */
 
+extern char *sbrk (int);
+static void getpool (void);
+
 extern char etext;
 
 /* end of the program; can be changed by calling init_malloc */
@@ -186,7 +189,6 @@ static
 morecore (nu)			/* ask system for more memory */
      register int nu;		/* size index to get more of  */
 {
-    char   *sbrk ();
     register char  *cp;
     register int    nblks;
     register int    siz;
@@ -217,6 +219,7 @@ morecore (nu)			/* ask system for more memory */
 
     cp = sbrk (0);
     siz = cp - endofpure;
+#if 0
     switch (warnlevel) {
 	case 0: 
 	    if (siz > (lim_data / 4) * 3) {
@@ -237,6 +240,7 @@ morecore (nu)			/* ask system for more memory */
 	    }
 	    break;
     }
+#endif
 
     if ((int) cp & 0x3ff)	/* land on 1K boundaries */
 	sbrk (1024 - ((int) cp & 0x3ff));

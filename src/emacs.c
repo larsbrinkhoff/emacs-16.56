@@ -20,6 +20,7 @@ copyright notice and this notice must be preserved on all copies.  */
 
 #include "config.h"
 #include <stdio.h>
+#include <stdlib.h>
 #undef NULL
 #include "lisp.h"
 #include "commands.h"
@@ -35,6 +36,7 @@ copyright notice and this notice must be preserved on all copies.  */
 #include <sys/resource.h>
 #endif
 #include <sys/ioctl.h>
+#include <sys/personality.h>
 
 /* Command line args from shell, as list of strings */
 Lisp_Object Vcommand_line_args;
@@ -121,13 +123,18 @@ main (argc, argv)
      char **argv;
 {
   int skip_args = 0;
+  int p;
+
+  p = personality(ADDR_NO_RANDOMIZE);
+  if (p != ADDR_NO_RANDOMIZE)
+    execvp(argv[0], argv);
 
   signal (SIGHUP, fatal_error_signal);
   signal (SIGQUIT, fatal_error_signal);
   signal (SIGILL, fatal_error_signal);
   signal (SIGTRAP, fatal_error_signal);
   signal (SIGIOT, fatal_error_signal);
-  signal (SIGEMT, fatal_error_signal);
+  //signal (SIGEMT, fatal_error_signal);
   signal (SIGFPE, fatal_error_signal);
   signal (SIGBUS, fatal_error_signal);
   signal (SIGSEGV, fatal_error_signal);

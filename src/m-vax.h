@@ -30,7 +30,7 @@ copyright notice and this notice must be preserved on all copies.  */
 
 #define INTBITS 32		/* Number of bits in an int */
 
-#define LONGBITS 32		/* Number of bits in a long */
+#define LONGBITS 64		/* Number of bits in a long */
 
 /* Vax is not big-endian: lowest numbered byte is least significant. */
 

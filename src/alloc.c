@@ -45,7 +45,7 @@ Lisp_Object Vpurify_flag;
 #define PURESIZE 120000
 #endif
 
-int pure[PURESIZE / sizeof (int)] = 0;   /* Force it into data space! */
+int pure[PURESIZE / sizeof (int)] = { 1 };   /* Force it into data space! */
 
 #define PUREBEG (char *) pure
 

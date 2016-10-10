@@ -18,6 +18,7 @@ It should be in a file named COPYING.  Among other things, the
 copyright notice and this notice must be preserved on all copies.  */
 
 
+#include <stdarg.h>
 #include "config.h"
 #include "lisp.h"
 
@@ -979,10 +980,13 @@ find_handler_clause (handlers, conditions, sig, data)
 /* dump an error message; called like printf */
 
 void
-error (m, a1, a2, a3)
+error (char *m, ...)
 {
   char buf[200];
-  sprintf (buf, m, a1, a2, a3);
+  va_list ap;
+  va_start(ap, m);
+  vsprintf (buf, m, ap);
+  va_end(ap);
   Fsignal (Qerror, Fcons (build_string (buf), Qnil));
 }
 

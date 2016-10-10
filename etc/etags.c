@@ -698,7 +698,7 @@ C_entries ()
 		    {
 		      if (linestart != linecharno)
 			{
-			  getline (linestart);
+			  emacs_getline (linestart);
 			  strncpy (tok, token + (lb1.buffer - buf),
 				   tp-token+1);
 			  tok[tp-token+1] = 0;
@@ -845,7 +845,7 @@ ret:
   return !bad && win;
 }
 
-getline (atchar)
+emacs_getline (atchar)
      long atchar;
 {
   long saveftell = ftell (inf);

@@ -376,9 +376,8 @@ DEFUN ("current-time-string", Fcurrent_time_string, Scurrent_time_string, 0, 0, 
   ()
 {
   long now = time ( (long *) 0);
-  char *tem = (char *) ctime (&now);
-  tem [24] = 0;
-  return build_string (tem);
+  /* ctime fails */
+  return build_string (" ( build time ) ");
 }
 
 DEFUN ("insert", Finsert, Sinsert, 0, MANY, 0,

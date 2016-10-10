@@ -70,8 +70,9 @@ If FULL is non-NIL, absolute pathnames of the files are returned.")
       if (!dp) break;
       if (dp->d_ino)
 	{
-	  strncpy (filename, dp->d_name, dp->d_namlen);
-	  filename[dp->d_namlen] = 0;
+	  int len = strlen(dp->d_name);
+	  strncpy (filename, dp->d_name, len);
+	  filename[len] = 0;
 	  if (!NULL (full))
             name = concat2 (dirname, build_string (slashfilename));
 	  else
@@ -139,7 +140,7 @@ file_name_completion (file, dirname, all_flag)
 	  if (!NULL (Vquit_flag) && NULL (Vinhibit_quit))
 	    goto quit;
 	  if (!dp->d_ino ||
-	      dp->d_namlen < XSTRING (file)->size ||
+	      strlen(dp->d_name) < XSTRING (file)->size ||
 	      bcmp (dp->d_name, XSTRING (file)->data, XSTRING (file)->size))
 	    continue;
 
@@ -151,7 +152,7 @@ file_name_completion (file, dirname, all_flag)
 	      {
 		elt = XCONS (tem)->car;
 		if (XTYPE (elt) != Lisp_String) continue;
-		skip = dp->d_namlen - XSTRING (elt)->size;
+		skip = strlen(dp->d_name) - XSTRING (elt)->size;
 		if (skip < 0) continue;
 
 		if (bcmp (dp->d_name + skip,
@@ -175,11 +176,11 @@ file_name_completion (file, dirname, all_flag)
 		  if (directoryp)
 		    {
 		      /* This completion is a directory; make it end with '/' */
-		      name = make_string (dp->d_name, dp->d_namlen + 1);
-		      XSTRING (name)->data[dp->d_namlen] = '/';
+		      name = make_string (dp->d_name, strlen(dp->d_name) + 1);
+		      XSTRING (name)->data[strlen(dp->d_name)] = '/';
 		    }
 		  else
-		    name = make_string (dp->d_name, dp->d_namlen);
+		    name = make_string (dp->d_name, strlen(dp->d_name));
 		  if (all_flag)
 		    {
 		      bestmatch = Fcons (name, bestmatch);
@@ -192,7 +193,7 @@ file_name_completion (file, dirname, all_flag)
 		}
 	      else
 		{
-		  compare = min (bestmatchsize, dp->d_namlen);
+		  compare = min (bestmatchsize, strlen(dp->d_name));
 		  p1 = XSTRING (bestmatch)->data;
 		  p2 = (unsigned char *) dp->d_name;
 		  for (matchsize = 0; matchsize < compare; matchsize++)
@@ -224,15 +225,15 @@ file_name_completion_stat (dirname, dp, st_addr)
      struct direct *dp;
      struct stat *st_addr;
 {
-  char *fullname = (char *) alloca (dp->d_namlen + XSTRING (dirname)->size + 2);
+  char *fullname = (char *) alloca (strlen(dp->d_name) + XSTRING (dirname)->size + 2);
   int pos = XSTRING (dirname)->size;
 
   bcopy (XSTRING (dirname)->data, fullname, pos);
   if (fullname[pos - 1] != '/')
     fullname[pos++] = '/';
 
-  bcopy (dp->d_name, fullname + pos, dp->d_namlen);
-  fullname[pos + dp->d_namlen] = 0;
+  bcopy (dp->d_name, fullname + pos, strlen(dp->d_name));
+  fullname[pos + strlen(dp->d_name)] = 0;
 
   return stat (fullname, st_addr);
 }

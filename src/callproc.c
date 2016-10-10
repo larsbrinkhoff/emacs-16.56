@@ -21,14 +21,15 @@ copyright notice and this notice must be preserved on all copies.  */
 
 #include <signal.h>
 #include <sys/types.h>
-#define PRIO_PROCESS 0
 #include <sys/file.h>
 #include <sys/ioctl.h>
+#include <stdlib.h>
 #ifndef USG
 #include <sys/wait.h>
 #include <sys/time.h>
 #include <sys/resource.h>
 #endif
+#define PRIO_PROCESS 0
 
 #include "lisp.h"
 #include "commands.h"

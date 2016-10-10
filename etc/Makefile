@@ -1,10 +1,10 @@
-CFLAGS= -g
+CFLAGS= -g -w
 
 all: test-distrib etags ctags loadst make-docfile digest-doc movemail
 
 test-distrib: test-distrib.c
 	cc -o test-distrib test-distrib.c
-	test-distrib
+	./test-distrib
 
 etags: etags.c
 	cc -o etags ${CFLAGS} -DETAGS etags.c

@@ -23,6 +23,10 @@ copyright notice and this notice must be preserved on all copies.  */
 #include <sys/ioctl.h>
 #include <fcntl.h>
 
+#ifdef linux
+#define USG
+#endif
+
 #ifndef USG
 #include <sys/wait.h>
 #include <sgtty.h>
@@ -205,7 +209,7 @@ InitDsp ()
       sg.c_oflag &= ~ONLCR;	/* Disable map of CR to CR-NL on output */
       sg.c_oflag &= ~TAB3;	/* Disable tab expansion */
       sg.c_cc[VINTR] = '\007';		/* ^G gives SIGINT */
-      sg.c_cc[VQUIT] = CDEL;		/* Turn off SIGQUIT */
+      sg.c_cc[VQUIT] = 255;		/* Turn off SIGQUIT */
       sg.c_cc[VMIN] = 1;
       sg.c_cc[VTIME] = 1;
 #else /* if not USG */
@@ -260,9 +264,13 @@ InitDsp ()
    
 tabs_safe_p ()
 {
+#if 0
   TERMINAL sg;
   gtty (&sg);
   return (sg.sg_flags & XTABS) != XTABS;
+#else
+  return 1;
+#endif
 }
 
 RstDsp ()
@@ -295,7 +303,7 @@ RstDsp ()
   ioctl (0, TIOCSETN, &old_gtty);
 }
 
-#ifdef USG
+#if 0
 
 static struct utsname name;
 
@@ -367,6 +375,7 @@ readlink() {croak ("readlink");}
 Ffile_name_completion() {croak ("Ffile_name_completion");}
 Ffile_name_all_completions() {croak ("Ffile_name_all_completions");}
 
+#endif
 
 /*
  *	This function will go away as soon as all the stubs fixed.  (fnf)
@@ -385,5 +394,3 @@ croak (badfunc)
    It is totally useless to attempt to deal with the
    problem of alloca in any manner except to add a valid
    definition for your cpu type to alloca.s.  */
-
-#endif /* USG */

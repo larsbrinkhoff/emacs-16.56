@@ -22,6 +22,7 @@ copyright notice and this notice must be preserved on all copies.  */
 #include <stdio.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <stdlib.h>
 #include <sys/ioctl.h>
 #ifndef USG
 #include <sys/time.h>
@@ -528,7 +529,7 @@ update_screen (force, inhibit_hairy_id)
 	       Also flush out if likely to have more than 1k buffered otherwise.
 	       I'm told that telnet connections get really screwed by more
 	       than 1k output at once.  */
-	    outq = stdout->_ptr - stdout->_base;
+	    outq = 1; //stdout->_ptr - stdout->_base;
 	    if (outq > ((--preempt_count < 0) ? 20 : 900))
 	      {
 		fflush (stdout);

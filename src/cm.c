@@ -26,7 +26,10 @@ copyright notice and this notice must be preserved on all copies.  */
 #define	BIG	9999		/* 9999 good on VAXen.  For 16 bit machines
 				   use about 2000.... */
 
-char	*malloc (), *mytgoto (), *getenv ();
+static char *
+mytgoto (char *CM, int col, int line);
+
+char	*malloc (), *getenv ();
 
 static int cost;		/* sums up costs */
 
@@ -330,8 +333,7 @@ xgoto (row, col)
     {
       /* compute REAL direct cost */
       cost = 0;
-      p = dcm == Wcm.cm_habs ? mytgoto (dcm, row, col) :
-			       mytgoto (dcm, col, row);
+      p = mytgoto (dcm, col, row);
       tputs (p, 1, evalcost);
       if (cost <= relcost)
 	{	/* really is cheaper */
@@ -416,6 +418,9 @@ int	col, line;
     register int    c;
     int     val,
             toggle;
+
+    sprintf(cmbuf, "\033[%d;%dH", line+1, col+1);
+    return cmbuf;
 
     if ((cp = CM) == 0)
 	return 0;

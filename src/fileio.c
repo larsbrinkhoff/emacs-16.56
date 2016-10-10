@@ -27,6 +27,7 @@ copyright notice and this notice must be preserved on all copies.  */
 #include <pwd.h>
 #include <ctype.h>
 #include <sys/dir.h>
+#include <errno.h>
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) > (b) ? (a) : (b))
@@ -45,14 +46,8 @@ report_file_error (string, data)
      Lisp_Object data;
 {
   Lisp_Object errstring;
-  extern char *sys_errlist[];
-  extern int errno;
-  extern int sys_nerr;
 
-  if (errno < sys_nerr)
-    errstring = build_string (sys_errlist[errno]);
-  else
-    errstring = build_string ("undocumented error code");
+  errstring = build_string (strerror(errno));
 
   /* System error messages are capitalized.  Downcase the initial. */
   if (XSTRING (errstring)->data[0] >= 'A' &&
