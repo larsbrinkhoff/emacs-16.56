@@ -1,0 +1,11 @@
+*~
+*.o
+core
+/src/temacs
+/etc/DOCSTR*
+/etc/ctags
+/etc/etags
+/etc/digest-doc
+/etc/make-docfile
+/etc/movemail
+/etc/test-distrib
